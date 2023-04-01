@@ -12,47 +12,46 @@ fps = 60
 fpsms = (1000/60)
 mov = (5/fps)
 
-width, height = 720, 720
+height , width = 480, 720
 
-screen = p.display.set_mode([width, height])
+screen = p.display.set_mode([width , height])
 
 Running = True
-#jump = False
-#up = False
-#down = False
 clock = p.time.Clock()
 
 icon = p.image.load("Lib\icon.ico").convert()
 p.display.set_icon(icon)
 p.display.set_caption('the game')
-#bg = p.image.load("Lib\bg.jpg").convert()
 
-class Player:
+class Player():
     def __init__(self):
-        self.w = 64
         self.h = 128
+        self.health = 100
         self.plyrx = 0
-        self.plyry = height/2
-        self.plyrimg = p.image.load("Lib/tempchar.bmp").convert()
-    def scale(self):
-        self.plyrimg = p.transform.smoothscale(self.plyrimg, (self.w, self.h)).convert()
-    def jump(self):
+        self.plyry = height / 2
+        self.w = 64
+        self.plyrimg = p.image.load("Lib/tempchar.bmp").convert_alpha()
+    def jump():
         pass
-        #empty for now
-        
-plyr = Player()
+    def movef():
+        self.plyrx += (mov * fps)
+    def moveb():
+        self.plyrx -= (mov * fps)
+                
 
-match __name__:
-    case "__main__":
-        pass
-    case _:
-        exit()
+#match __name__:
+#    case "__main__":
+#        pass
+#    case _:
+#        exit()
     
 #match path:
 #   case ".py":
 #        debug = True
 #    case "pyw":
 #        pass
+
+plyr = Player()
 
 while Running:
     screen.blit(plyr.plyrimg, (plyr.plyrx, plyr.plyry))
@@ -61,6 +60,7 @@ while Running:
     evnt = p.event.poll()
     match evnt.type:
         case p.KEYDOWN:
+            #print(evnt.key)
             activekeys.append(evnt.key)
         case p.KEYUP:
             activekeys.remove(evnt.key)
@@ -76,33 +76,16 @@ while Running:
                 p.quit()
                 Running = False
                 break
-            case 127:
-                plyr.w -= 2
-                plyr.scale()
-            case 1073741898:
-                plyr.h += 2
-                plyr.scale()
-            case 1073741901:
-                plyr.h -= 2
-                plyr.scale()
-            case 1073741902:
-                plyr.w += 2
-                plyr.scale()
             case 1073741903:
-                plyr.plyrx += (mov * fps)
+                plyr.movef()
             case 1073741904:
-                plyr.plyrx -= (mov * fps)
+                plyr.moveb()
             case 1073741906:
-                #plyr.jump()
-                pass
+                plyr.jump = True
             #case 1073741905:
-            #    plyr.plyry -= (mov * fps)
+            #    plyry -= (mov * fps)
             case 1073741922:
-                plyr.plyrx = 0
-                plyr.plyry = height/2
-                plyr.w = 64
-                plyr.h = 128
-                plyr.plyrimg = p.image.load("Lib/tempchar.bmp").convert()
+                plyr.__init__()
             case _:
                 pass
     clock.tick(60)
